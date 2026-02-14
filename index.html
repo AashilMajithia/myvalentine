@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Love Compatibility Test ❤️</title>
+<title>Our Love Compatibility ❤️</title>
 
 <style>
 body {
@@ -14,7 +14,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    color: #333;
     overflow: hidden;
 }
 
@@ -23,7 +22,7 @@ body {
     padding: 30px;
     border-radius: 20px;
     width: 90%;
-    max-width: 450px;
+    max-width: 420px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.2);
     text-align: center;
     position: relative;
@@ -33,8 +32,7 @@ h2 {
     color: #ff2e63;
 }
 
-button {
-    display: block;
+.answer-btn {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
@@ -47,9 +45,8 @@ button {
     transition: 0.3s;
 }
 
-button:hover {
+.answer-btn:hover {
     transform: scale(1.05);
-    background: #ff004c;
 }
 
 .progress-container {
@@ -64,19 +61,45 @@ button:hover {
     height: 100%;
     width: 0%;
     background: #ff2e63;
-    transition: width 0.5s ease;
+    transition: width 0.4s ease;
 }
 
-.result {
-    font-size: 18px;
+#finalButtons {
+    position: relative;
+    height: 120px;
     margin-top: 20px;
+}
+
+#yesBtn, #noBtn {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff2e63;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#noBtn {
+    background: #999;
+    color: white;
+}
+
+#flirtyMessage {
+    margin-top: 10px;
     color: #ff2e63;
     font-weight: bold;
 }
 
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-300px); opacity: 0; }
+    to { transform: translateY(-250px); opacity: 0; }
 }
 </style>
 </head>
@@ -91,174 +114,135 @@ button:hover {
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="result" id="result"></div>
+    <div id="result"></div>
 </div>
 
 <script>
 
 const questions = [
-    {
-        question: "When things get tough, what do we do?",
-        answers: [
-            "We talk it through and grow stronger 💬",
-            "We learn and come back better 💪",
-            "We remind each other why we started ❤️"
-        ]
-    },
-    {
-        question: "What makes our connection special?",
-        answers: [
-            "Our honesty and openness 🫶",
-            "The way we laugh together 😂",
-            "How safe we feel with each other 🤍"
-        ]
-    },
-    {
-        question: "If we disagree, what happens?",
-        answers: [
-            "We find understanding 🤝",
-            "We listen and adjust 🧠",
-            "We choose love over ego 💕"
-        ]
-    },
-    {
-        question: "What do we bring out in each other?",
-        answers: [
-            "Growth 🌱",
-            "Confidence ✨",
-            "Peace and comfort 🕊️"
-        ]
-    },
-    {
-        question: "What’s our future looking like?",
-        answers: [
-            "Stronger than ever 💍",
-            "Full of memories and adventures 🌍",
-            "Built on love and commitment ❤️‍🔥"
-        ]
-    }
+    { question: "When things get tough, what do we do?",
+      answers: ["We grow stronger 💬", "We choose each other 💖", "We communicate better 🤝"] },
+
+    { question: "What makes us special?",
+      answers: ["Our honesty 🫶", "Our laughter 😂", "Our comfort 🤍"] },
+
+    { question: "When we disagree?",
+      answers: ["We understand each other 💭", "We learn 🧠", "We prioritise love 💕"] },
+
+    { question: "We bring out?",
+      answers: ["Growth 🌱", "Confidence ✨", "Peace 🕊️"] },
+
+    { question: "Our future?",
+      answers: ["Stronger 💍", "Adventurous 🌍", "Built on love ❤️‍🔥"] }
 ];
 
-let currentQuestion = -1;
-let compatibility = 0;
+let current = 0;
+let score = 0;
 
 const questionEl = document.getElementById("question");
 const answersEl = document.getElementById("answers");
 const progressBar = document.getElementById("progressBar");
 const resultEl = document.getElementById("result");
 
-startQuiz();
+loadQuestion();
 
-function startQuiz() {
-    nextQuestion();
-}
+function loadQuestion() {
+    if (current >= questions.length) {
+        showFinal();
+        return;
+    }
 
-function nextQuestion() {
-    currentQuestion++;
+    questionEl.innerText = questions[current].question;
     answersEl.innerHTML = "";
 
-    if (currentQuestion < questions.length) {
-        questionEl.innerText = questions[currentQuestion].question;
-
-        questions[currentQuestion].answers.forEach(answer => {
-            const btn = document.createElement("button");
-            btn.innerText = answer;
-            btn.onclick = () => {
-                compatibility += 20;
-                updateProgress();
-                nextQuestion();
-            };
-            answersEl.appendChild(btn);
-        });
-    } else {
-        showResult();
-    }
+    questions[current].answers.forEach(answer => {
+        const btn = document.createElement("button");
+        btn.className = "answer-btn";
+        btn.innerText = answer;
+        btn.onclick = () => {
+            score += 20;
+            progressBar.style.width = score + "%";
+            current++;
+            loadQuestion();
+        };
+        answersEl.appendChild(btn);
+    });
 }
 
-function updateProgress() {
-    progressBar.style.width = compatibility + "%";
-}
-
-function showResult() {
+function showFinal() {
     questionEl.innerText = "Final Result ❤️";
     answersEl.innerHTML = "";
     progressBar.style.width = "100%";
 
     resultEl.innerHTML = `
+        <p style="color:#ff2e63;font-weight:bold;">
         Compatibility: 100% 💘<br><br>
         We’re not perfect… but we’re perfect for each other.<br>
-        We grow. We learn. We choose each other — even on the hard days.<br><br>
-        And after all that there’s just one more question… 💭<br><br>
-        <span style="font-size:22px;">Will you be my Valentine? ❤️</span>
-        <br><br>
-        <div style="position:relative;height:120px;">
-            <button id="finalYesBtn" style="background:#ff2e63;">
-                Yes, always 💖
-            </button>
-            <button id="finalNoBtn" style="background:#aaa;position:absolute;">
-                No maybe later 😅
-            </button>
+        I choose you — even on the hard days.
+        </p>
+
+        <p style="margin-top:15px;font-size:18px;">
+        Sooo... will you be my Valentine? ❤️
+        </p>
+
+        <div id="finalButtons">
+            <button id="yesBtn">Yes, always 💖</button>
+            <button id="noBtn">No maybe later 😅</button>
         </div>
-        <div id="flirtyMessage" style="margin-top:15px;color:#ff2e63;"></div>
+
+        <div id="flirtyMessage"></div>
     `;
 
     setupFinalButtons();
 }
 
 function setupFinalButtons() {
-    const noBtn = document.getElementById("finalNoBtn");
-    const yesBtn = document.getElementById("finalYesBtn");
-    const flirtyMessage = document.getElementById("flirtyMessage");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const flirty = document.getElementById("flirtyMessage");
 
     const messages = [
-        "Are you sureee? 🥺",
-        "But we just got 100% 😌",
-        "My heart might cry a little 💔",
-        "I promise I’ll make it worth it 💝",
-        "Okay okay… I’ll keep trying 😘"
+        "Are you sure? 🥺",
+        "But we just scored 100% 😌",
+        "I’ll bring snacks though 🍫",
+        "Okay but I’m not giving up 😘"
     ];
 
     let index = 0;
 
     function moveButton() {
-        const container = noBtn.parentElement;
-        const maxX = container.offsetWidth - noBtn.offsetWidth;
-        const maxY = container.offsetHeight - noBtn.offsetHeight;
+        const container = document.getElementById("finalButtons");
+        const maxX = container.clientWidth - noBtn.offsetWidth;
+        const maxY = container.clientHeight - noBtn.offsetHeight;
 
         noBtn.style.left = Math.random() * maxX + "px";
         noBtn.style.top = Math.random() * maxY + "px";
     }
 
-    noBtn.addEventListener("mouseover", () => {
+    noBtn.addEventListener("mouseenter", () => {
         moveButton();
-        flirtyMessage.innerText = messages[index];
-        index = (index + 1) % messages.length;
-    });
-
-    noBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        moveButton();
-        flirtyMessage.innerText = messages[index];
+        flirty.innerText = messages[index];
         index = (index + 1) % messages.length;
     });
 
     yesBtn.addEventListener("click", () => {
         resultEl.innerHTML = `
-            You just made me the happiest person alive ❤️<br><br>
-            No matter what season we’re in… I choose you.
+            <h3 style="color:#ff2e63;">
+            You just made me the happiest person alive ❤️
+            </h3>
         `;
-        launchHearts();
+        hearts();
     });
 }
 
-function launchHearts() {
-    for (let i = 0; i < 15; i++) {
+function hearts() {
+    for (let i = 0; i < 12; i++) {
         const heart = document.createElement("div");
         heart.innerHTML = "❤️";
         heart.style.position = "fixed";
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.bottom = "0px";
-        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        heart.style.fontSize = "25px";
         heart.style.animation = "floatUp 3s linear forwards";
         document.body.appendChild(heart);
 
