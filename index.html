@@ -40,9 +40,9 @@ p {
   width: 130px;
   height: 130px;
   background: linear-gradient(145deg, #ff9ecf, #ff66a3);
-  border-radius: 60% 60% 60% 60%;
+  border-radius: 60%;
   cursor: pointer;
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  transition: transform 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,8 +51,14 @@ p {
   box-sizing: border-box;
   text-align: center;
   color: white;
-  transform: scale(0);
+  opacity: 0;
 }
+
+.petal.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
 
 .petal.active {
   transform: scale(1);
@@ -178,11 +184,15 @@ button {
 <script>
 let clicked = 0;
 
-window.onload = () => {
-  document.querySelectorAll(".petal").forEach((p, i) => {
-    setTimeout(() => p.classList.add("active"), i * 300);
+window.addEventListener("DOMContentLoaded", () => {
+  const petals = document.querySelectorAll(".petal");
+  petals.forEach((petal, i) => {
+    setTimeout(() => {
+      petal.classList.add("show");
+    }, i * 250);
   });
-};
+});
+
 
 function reveal(element, num) {
   const messages = {
