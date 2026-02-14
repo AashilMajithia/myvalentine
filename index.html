@@ -3,52 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You ❤️</title>
+<title>For You My Love 🌸</title>
+
 <style>
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ffd6e8, #ffeef7);
   text-align: center;
-  overflow-x: hidden;
+  overflow: hidden;
+  color: #b03060;
 }
 
-.container {
-  padding: 40px 20px;
+h1 {
+  margin-top: 40px;
+  font-size: 28px;
 }
 
-button {
-  background: white;
-  color: #ff4f81;
-  border: none;
-  padding: 15px 25px;
-  margin: 10px;
-  border-radius: 30px;
-  font-size: 16px;
+#flower {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 60px auto;
+}
+
+.petal {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #ff99cc;
+  border-radius: 60% 60% 60% 60%;
   cursor: pointer;
-  transition: 0.3s;
+  transition: transform 0.4s ease, background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-button:hover {
+.petal:hover {
+  background: #ff66a3;
   transform: scale(1.1);
+}
+
+.center {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 100px;
+  height: 100px;
+  background: #ff4d94;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+#message {
+  max-width: 350px;
+  margin: 20px auto;
+  font-size: 16px;
+  min-height: 60px;
+  padding: 0 20px;
 }
 
 .hidden {
   display: none;
 }
 
-.card {
-  background: rgba(255,255,255,0.2);
-  padding: 20px;
-  border-radius: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  backdrop-filter: blur(10px);
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s;
 }
 
-h1 {
-  font-size: 28px;
+#yesBtn {
+  background: #ff4d94;
+  color: white;
+}
+
+#yesBtn:hover {
+  transform: scale(1.1);
+}
+
+#noBtn {
+  background: white;
+  color: #ff4d94;
+  position: relative;
 }
 
 .fade-in {
@@ -56,111 +106,101 @@ h1 {
 }
 
 @keyframes fade {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(-10vh);
+  }
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<h1>Build Our Love 🌸</h1>
+<p>Tap each petal to help our flower bloom...</p>
 
-  <div id="landing">
-    <h1>Hey Beautiful ❤️</h1>
-    <p>I made something for you...</p>
-    <button onclick="startGame()">Start</button>
-  </div>
+<div id="flower">
+  <div class="petal" style="top:0; left:90px;" onclick="reveal(1)">Trust</div>
+  <div class="petal" style="top:60px; left:180px;" onclick="reveal(2)">Patience</div>
+  <div class="petal" style="top:160px; left:140px;" onclick="reveal(3)">Growth</div>
+  <div class="petal" style="top:160px; left:20px;" onclick="reveal(4)">Laughter</div>
+  <div class="petal" style="top:60px; left:0px;" onclick="reveal(5)">Loyalty</div>
+  <div class="center">Us ❤️</div>
+</div>
 
-  <div id="memories" class="hidden">
-    <h1>Unlock Our Story</h1>
-    <button onclick="showMemory(1)">Our Beginning</button>
-    <button onclick="showMemory(2)">What I Love About You</button>
-    <button onclick="showMemory(3)">Our Future</button>
-    <button onclick="startQuiz()">Final Question</button>
+<div id="message"></div>
 
-    <div id="memoryContent"></div>
-  </div>
-
-  <div id="quiz" class="hidden">
-    <h1>One Question...</h1>
-    <p>No matter what we've been through...</p>
-    <p>Will you keep choosing us?</p>
-    <button onclick="finalScreen()">Yes ❤️</button>
-    <button onclick="finalScreen()">Always ❤️</button>
-  </div>
-
-  <div id="final" class="hidden">
-    <h1 class="fade-in">I Choose You. Still.</h1>
-    <div class="card fade-in">
-      <p>
-        We've had hard moments.  
-        We've misunderstood each other.  
-        But loving you isn't something I want to lose.  
-      </p>
-      <p>
-        I don't want perfect.  
-        I want real.  
-        I want us.
-      </p>
-      <p>Forever starts with choosing each other again.</p>
-    </div>
-  </div>
-
+<div id="valentine" class="hidden fade-in">
+  <h1>So... will you be my Valentine? 😌</h1>
+  <button id="yesBtn" onclick="yesClicked()">Yes 💘</button>
+  <button id="noBtn" onmouseover="moveNo()">No 🙈</button>
 </div>
 
 <script>
-function startGame() {
-  document.getElementById("landing").classList.add("hidden");
-  document.getElementById("memories").classList.remove("hidden");
-}
+let clicked = 0;
 
-function showMemory(num) {
-  const content = document.getElementById("memoryContent");
-  content.classList.remove("hidden");
-  content.classList.add("fade-in");
+function reveal(num) {
+  const messages = {
+    1: "Trust means even in hard moments, I still believe in us.",
+    2: "Patience means loving you gently, even when we’re figuring things out.",
+    3: "Growth means we’re not perfect — we’re evolving together.",
+    4: "Laughter means even our worst days can end with a smile.",
+    5: "Loyalty means I choose you. Not sometimes. Always."
+  };
 
-  if (num === 1) {
-    content.innerHTML = `
-      <div class="card">
-      <h2>Our Beginning</h2>
-      <p>I still remember the first time I saw you...</p>
-      <p>Everything felt different. Lighter.</p>
-      </div>
-    `;
-  }
+  document.getElementById("message").innerText = messages[num];
+  clicked++;
 
-  if (num === 2) {
-    content.innerHTML = `
-      <div class="card">
-      <h2>What I Love About You</h2>
-      <p>Your smile.</p>
-      <p>Your strength.</p>
-      <p>The way you care deeply.</p>
-      </div>
-    `;
-  }
-
-  if (num === 3) {
-    content.innerHTML = `
-      <div class="card">
-      <h2>Our Future</h2>
-      <p>I see growth.</p>
-      <p>I see adventure.</p>
-      <p>I see us choosing each other.</p>
-      </div>
-    `;
+  if (clicked === 5) {
+    setTimeout(() => {
+      document.getElementById("valentine").classList.remove("hidden");
+    }, 1200);
   }
 }
 
-function startQuiz() {
-  document.getElementById("memories").classList.add("hidden");
-  document.getElementById("quiz").classList.remove("hidden");
+function moveNo() {
+  const noBtn = document.getElementById("noBtn");
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-function finalScreen() {
-  document.getElementById("quiz").classList.add("hidden");
-  document.getElementById("final").classList.remove("hidden");
+function yesClicked() {
+  document.body.innerHTML = `
+    <h1 style="margin-top:100px;">I knew you would 😌💖</h1>
+    <p>You just made me the happiest person.</p>
+  `;
 }
+
+/* Floating hearts generator */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 6000);
+}, 800);
+
 </script>
 
 </body>
