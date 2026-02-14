@@ -42,7 +42,7 @@ p {
   background: linear-gradient(145deg, #ff9ecf, #ff66a3);
   border-radius: 60%;
   cursor: pointer;
-  transition: transform 0.6s ease, box-shadow 0.6s ease, opacity 0.6s ease;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,18 +51,17 @@ p {
   box-sizing: border-box;
   text-align: center;
   color: white;
-  opacity: 0;
+  transform: scale(0.6);
+  animation: petalAppear 0.8s ease forwards;
 }
 
-.petal.show {
-  opacity: 1;
-  transform: scale(1);
+@keyframes petalAppear {
+  to {
+    transform: scale(1);
+  }
 }
 
 
-.petal.active {
-  transform: scale(1);
-}
 
 .petal.clicked {
   box-shadow: 0 0 20px #ff4d94;
@@ -165,11 +164,11 @@ button {
 <p>Tap each petal to help our flower bloom...</p>
 
 <div id="flower">
-  <div class="petal" style="top:0; left:95px;" onclick="reveal(this,1)">Trust</div>
-  <div class="petal" style="top:70px; left:185px;" onclick="reveal(this,2)">Patience</div>
-  <div class="petal" style="top:180px; left:140px;" onclick="reveal(this,3)">Growth</div>
-  <div class="petal" style="top:180px; left:20px;" onclick="reveal(this,4)">Laughter</div>
-  <div class="petal" style="top:70px; left:0px;" onclick="reveal(this,5)">Loyalty</div>
+  <div class="petal" style="top:0; left:95px; animation-delay:0s;" onclick="reveal(this,1)">Trust</div>
+<div class="petal" style="top:70px; left:185px; animation-delay:0.2s;" onclick="reveal(this,2)">Patience</div>
+<div class="petal" style="top:180px; left:140px; animation-delay:0.4s;" onclick="reveal(this,3)">Growth</div>
+<div class="petal" style="top:180px; left:20px; animation-delay:0.6s;" onclick="reveal(this,4)">Laughter</div>
+<div class="petal" style="top:70px; left:0px; animation-delay:0.8s;" onclick="reveal(this,5)">Loyalty</div>
   <div class="center">Us ❤️</div>
 </div>
 
@@ -183,15 +182,6 @@ button {
 
 <script>
 let clicked = 0;
-
-window.addEventListener("DOMContentLoaded", () => {
-  const petals = document.querySelectorAll(".petal");
-  petals.forEach((petal, i) => {
-    setTimeout(() => {
-      petal.classList.add("show");
-    }, i * 250);
-  });
-});
 
 
 function reveal(element, num) {
