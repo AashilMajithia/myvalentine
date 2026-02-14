@@ -213,12 +213,48 @@ function reveal(element, num) {
   }
 }
 
+const teasingMessages = [
+  "Are you suuuure? 😏",
+  "That doesn't feel right...",
+  "Try again cutie 💕",
+  "I think you meant Yes 👀",
+  "Don’t break my heart 🥺",
+  "Be niceee 😌"
+];
+
+let teaseIndex = 0;
+let attemptCount = 0;
+
 function moveNo() {
   const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+
+  attemptCount++;
+
+  // After 6 attempts, hide behind Yes
+  if (attemptCount > 6) {
+    noBtn.style.position = "absolute";
+    noBtn.style.left = yesBtn.offsetLeft + "px";
+    noBtn.style.top = yesBtn.offsetTop + "px";
+    noBtn.style.zIndex = "-1";
+    noBtn.innerText = "You've scared away the No Button & it's hiding behind Yes 😳";
+    return;
+  }
+
   const x = Math.random() * 250 - 125;
   const y = Math.random() * 200 - 100;
+
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+  noBtn.innerText = teasingMessages[teaseIndex];
+
+  teaseIndex++;
+  if (teaseIndex >= teasingMessages.length) {
+    teaseIndex = 0;
+  }
 }
+
+
 
 function yesClicked() {
   document.body.innerHTML = `
